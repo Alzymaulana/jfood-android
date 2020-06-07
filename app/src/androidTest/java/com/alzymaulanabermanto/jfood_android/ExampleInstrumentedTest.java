@@ -1,4 +1,4 @@
-package com.example.jfood_android;
+package com.alzymaulanabermanto.jfood_android;
 
 import android.content.Context;
 

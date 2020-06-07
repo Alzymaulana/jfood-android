@@ -1,4 +1,8 @@
-package com.example.jfood_android;
+package com.alzymaulanabermanto.jfood_android;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -8,17 +12,13 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 public class MainListAdapter extends BaseExpandableListAdapter {
-    
     private Context _context;
-    private ArrayList<Seller> _listDataHeader;
+    private ArrayList<Seller> _listDataHeader; // header titles
+    // child data in format of header title, child title
     private HashMap<Seller, ArrayList<Food>> _listDataChild;
 
-    public MainListAdapter(Context context, ArrayList<Seller> listDataHeader,
-                           HashMap<Seller, ArrayList<Food>> listChildData) {
+    public MainListAdapter(Context context, ArrayList<Seller> listDataHeader, HashMap<Seller, ArrayList<Food>> listChildData) {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
@@ -26,8 +26,7 @@ public class MainListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
-                .get(childPosititon);
+        return this._listDataChild.get(this._listDataHeader.get(groupPosition)).get(childPosititon);
     }
 
     @Override
@@ -36,28 +35,24 @@ public class MainListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getChildView(int groupPosition, final int childPosition,
-                             boolean isLastChild, View convertView, ViewGroup parent) {
+    public View getChildView(int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
-        final String childText = (String) getChild(groupPosition, childPosition);
+        final Food childText = (Food) getChild(groupPosition, childPosition);
 
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this._context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater infalInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.layout_food, null);
         }
 
-        TextView txtListChild = (TextView) convertView
-                .findViewById(R.id.lblListItem);
-
-        txtListChild.setText(childText);
+        TextView txtListChild = (TextView) convertView.findViewById(R.id.lblListItem);
+        String s = "[" + childText.getId() + "] " + childText.getName() + ", Price : " + childText.getPrice();
+        txtListChild.setText(s);
         return convertView;
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return this._listDataChild.get(this._listDataHeader.get(groupPosition))
-                .size();
+        return this._listDataChild.get(this._listDataHeader.get(groupPosition)).size();
     }
 
     @Override
@@ -76,19 +71,18 @@ public class MainListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded,
-                             View convertView, ViewGroup parent) {
-        String headerTitle = (String) getGroup(groupPosition);
+    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+
+        final Seller headerTitle = (Seller) getGroup(groupPosition);
+
         if (convertView == null) {
-            LayoutInflater infalInflater = (LayoutInflater) this._context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater infalInflater = (LayoutInflater) this._context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.layout_seller, null);
         }
 
-        TextView lblListHeader = (TextView) convertView
-                .findViewById(R.id.lblListItem);
-        lblListHeader.setTypeface(null, Typeface.BOLD);
-        lblListHeader.setText(headerTitle);
+        TextView ListHeader = (TextView) convertView.findViewById(R.id.lblListHeader);
+        ListHeader.setTypeface(null, Typeface.BOLD);
+        ListHeader.setText("Seller " + headerTitle.getName());
 
         return convertView;
     }

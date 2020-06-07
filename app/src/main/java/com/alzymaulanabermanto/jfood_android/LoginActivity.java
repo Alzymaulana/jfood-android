@@ -1,7 +1,6 @@
-package com.example.jfood_android;
+package com.alzymaulanabermanto.jfood_android;
 
 import androidx.appcompat.app.AppCompatActivity;
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.content.Intent;
 import android.view.View;
@@ -17,6 +16,10 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.alzymaulanabermanto.jfood_android.LoginRequest;
+import com.alzymaulanabermanto.jfood_android.R;
+import com.alzymaulanabermanto.jfood_android.RegisterActivity;
+
 public class LoginActivity extends AppCompatActivity {
 
     @Override
@@ -24,16 +27,16 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        final EditText etEmail = findViewById(R.id.login_email);
-        final EditText etPassword = findViewById(R.id.login_password);
-        final Button btnLogin = findViewById(R.id.login_button);
-        final TextView tvRegister = findViewById(R.id.login_register);
+        final EditText etEmail = findViewById(R.id.etEmail);
+        final EditText etPassword = findViewById(R.id.etPassword);
+        Button btnLogin = findViewById(R.id.btnLogin);
+        TextView tvRegister = findViewById(R.id.tvRegister);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String email = etEmail.getText().toString();
-                final String password = etPassword.getText().toString();
+                String email = etEmail.getText().toString();
+                String password = etPassword.getText().toString();
 
                 Response.Listener<String> responseListener = new Response.Listener<String>() {
                     @Override
@@ -42,13 +45,11 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject jsonResponse = new JSONObject(response);
                             if(jsonResponse != null){
                                 Toast.makeText(LoginActivity.this, "Login Sucessful", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                Intent intent = new Intent (LoginActivity.this, MainActivity.class);
                                 startActivity(intent);
-                                finish();
                             }
                         }
                         catch (JSONException e){
-                            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                             Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
                         }
                     }
